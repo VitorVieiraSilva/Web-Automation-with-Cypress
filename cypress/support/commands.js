@@ -1,8 +1,9 @@
 
-Cypress.Commands.add('createUserViaAPI', (userData = {
-    name: 'Vitor Silva',
-    email: 'vitorsilva@test.com',
-    password: '@Test2025',
+Cypress.Commands.add('createUserViaAPI', (name,email,password) => {
+    const data = {
+    name: name,
+    email: email,
+    password: password,
     title: 'Mr',
     birth_date: '10',
     birth_month: '5',
@@ -17,35 +18,34 @@ Cypress.Commands.add('createUserViaAPI', (userData = {
     city: 'Test City',
     zipcode: 'A1B 2C3',
     mobile_number: '+1234567890'
-}) => {
+} 
     cy.request({
         method: 'POST',
         url: 'https://automationexercise.com/api/createAccount',
         form: true,
-        body: userData
+        body: data
     }).then((response) => {
+        console.log('Create User Response:', response);
         return response;
     });
 });
 
-Cypress.Commands.add('deleteUserViaApi', (data = {
-    email: 'vitorsilva@test',
-    password: '@Test2025'
-}) => {
+Cypress.Commands.add('deleteUserViaApi', (email, password) => {
     cy.request({
         method: 'DELETE',
         url: 'https://automationexercise.com/api/deleteAccount',
         form: true,
-        body: { email: data.email, password: data.password }
+        body: { email: email, password: password }
     }).then((response) => {
         return response;
     });
 });
 
-Cypress.Commands.add('fillCompleteForm', (data = {
+Cypress.Commands.add('fillCompleteForm', (email) => {
+    const data = {
     firstName: 'Vitor',
     lastName: 'Silva',
-    email: 'vitorsilva@test.com',
+    email: email,
     password: '@Test2025',
     day: '10',
     month: 'May',
@@ -58,7 +58,8 @@ Cypress.Commands.add('fillCompleteForm', (data = {
     city: 'Test City',
     zipcode: 'A1B 2C3',
     mobileNumber: '+1234567890'
-}) => {
+    }
+
     cy.get('#id_gender1').check()
     cy.get('[data-qa="password"]').type(data.password)
     cy.get('[data-qa="days"]').select(data.day)
